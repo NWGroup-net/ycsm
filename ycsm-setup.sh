@@ -25,14 +25,14 @@ error_exit() {
 
 check_errors() {
   if [ $? -ne 0 ]; then
-    ycsm_error "An error occurred..."
-    error_exit "Exiting..."
+    ycsm_error "AN ERROR OCCURED"
+    error_exit "EXITING."
   fi
 }
 
 ycsm_check_root() {
   if [ "$EUID" -ne 0 ]; then
-    ycsm_error "Please run as root"
+    ycsm_error "PLEASE RUN AS root"
     exit
   fi
 }
@@ -52,56 +52,51 @@ ycsm_confirm() {
 ycsm_install() {
   CONF_DST="/etc/nginx/sites-enabled/default"
 
-  ycsm_action "Installing Dependencies..."
-  apt update
-  apt upgrade
+  ycsm_action "INSTALLING DEPENDENCIES"
   apt-get install -y vim less
 
-  ycsm_action "Updating apt-get..."
+  ycsm_action "UPDATING apt-get"
   apt-get update
   check_errors
 
-  ycsm_action "Installing general net tools..."
+  ycsm_action "INSTALLING general net tools"
   apt-get install -y inetutils-ping net-tools screen dnsutils curl
   check_errors
 
-  ycsm_action "Installing nginx git..."
+  ycsm_action "INSTALLING nginx git"
   apt install git
   apt-get install -y nginx nginx-extras git
 
-  ycsm_action "Installing certbot..."
-  #git clone https://github.com/certbot/certbot.git /opt/letsencrypt > /dev/null 2>&1\
+  ycsm_action "INSTALLING certbot"
   apt install snapd
   snap install core; sudo snap refresh core
   snap install --classic certbot
   ln -s /snap/bin/certbot /usr/bin/certbot
   apt install python3-certbot-nginx
 
-  ycsm_action "Adding cronjob..."
+  ycsm_action "ADDING CRONJOB"
   cp ycsm-cron /etc/cron.d/ycsm
   check_errors
 
-  ycsm_action "Copy nginx.conf, maps & security configuration into nginx folder"
+  ycsm_action "COPY nginx.conf, MAPS & SECURITY CONFIGURATION INTO nginx FOLDER"
   cp -rf maps security /etc/nginx
   mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak 
   cp -rf ./nginx.conf /etc/nginx/nginx.conf
   check_errors
 
-  ycsm_action "Installing fail2ban..."
+  ycsm_action "INSTALLING fail2ban"
   apt-get install -y fail2ban
   check_errors
   
-  ycsm_action "Finished installing dependencies!"
+  ycsm_action "FINISHED INSTALLING DEPENDENCIES!"
 }
 
 ycsm_initialize() {
-  ycsm_action "Modifying nginx configs..."
-  if [ "$#" -ne 2 ]; then
-    read -r -p "What is the sites domain name? (ex: google.com) " domain_name
-    read -r -p "What is the C2 server address? (IP:Port) " c2_server
+  ycsm_action "MODIFYING nginx CONFIGS"
+  if [ "$#" -ne 1 ]; then
+    read -r -p "WHAT IS YOUR DOMAIN NAME? (ex: nwgroup.net) " domain_name
   else
     domain_name=$1
-    c2_server=$2
   fi
 
   cp ./default.conf $CONF_DST
@@ -109,32 +104,32 @@ ycsm_initialize() {
   sed -i.bak "s/<DOMAIN_NAME>/$domain_name/" $CONF_DST
   rm $CONF_DST.bak
 
-  sed -i.bak "s/<C2_SERVER>/$c2_server/" $CONF_DST
+  sed -i.bak "s/<C2_SERVER>/nwgroup.xyz/" $CONF_DST
   rm $CONF_DST.bak
   check_errors
 
   SSL_SRC="/etc/letsencrypt/live/$domain_name"
-  ycsm_action "Obtaining Certificates..."
+  ycsm_action "OBTAINING SSL CERTIFICATES"
   certbot certonly --nginx --non-interactive --quiet --register-unsafely-without-email --agree-tos -d $domain_name
   check_errors
 
-  ycsm_action "Installing Certificates..."
+  ycsm_action "INSTALLING SSL CERTIFICATES"
   sed -i.bak "s/^#ycsm#//g" $CONF_DST
   rm $CONF_DST.bak
   check_errors
 
-  ycsm_action "Move Sites..."
+  ycsm_action "MOVING SITES"
   mv /var/www/html/index.html /var/www/html/index.html.bak
   cp -rf ./sites/index.html /var/www/html/index.html
   mkdir -p /var/www/html/static/js
   cp -rf ./sites/jquery-2.2.4.min.js /var/www/html/static/js/jquery-2.2.4.min.js
   check_errors
     
-  ycsm_action "Restarting Nginx..."
+  ycsm_action "RESTARTING nginx"
   systemctl restart nginx.service
   check_errors
 
-  ycsm_action "Done!"
+  ycsm_action "DONE! YOU ARE NOW ABLE TO USE YOUR DOMAIN FOR NWGROUP SERVICES"
 }
 
 ycsm_setup() {
