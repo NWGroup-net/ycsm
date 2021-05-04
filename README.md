@@ -15,11 +15,21 @@ If HTTPS was selected, it will automatically setup letsencrypt certbot and obtai
 * Block Accessing Redirector From Mobile.
 
 ## Getting Started
+MUST HAVE Ubuntu 20.04.2 LTS
+LOGIN AS root
+RUN THE FOLLOWING:
 ```
-git clone https://github.com/NWGroup-net/ycsm
-cd ycsm
-chmod +x ycsm-setup.sh
+apt-get update && 
+apt-get upgrade && 
+apt install git && 
+git clone https://github.com/NWGroup-net/ycsm && 
+cd ycsm && 
+chmod +x ycsm-setup.sh && 
+./ycsm-setup.sh
+```
 
+SELECT OPTION 1 TO BEGIN.
+```
 1) Setup Nginx Redirector
 2) Check Status
 3) Blocking Shodan
@@ -28,3 +38,4 @@ chmod +x ycsm-setup.sh
 
   YCSM - Select an Option:
 ```
+OTHER OPTIONS ARE OPTIONAL.
