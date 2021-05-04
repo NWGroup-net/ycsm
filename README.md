@@ -13,11 +13,10 @@ If HTTPS was selected, it will automatically setup letsencrypt certbot and obtai
 * Auto-Renew for Let's Encrypt SSL Certificates.
 * Nginx Hardening Servers with Fail2Ban.
 * Block Accessing Redirector From Mobile.
-* JQuery profiling users inspired by APT29 useful to sniff tier 1 SOC (https://github.com/samsayen/JQueryingU).
 
 ## Getting Started
 ```
-git clone https://github.com/infosecn1nja/ycsm
+git clone https://github.com/NWGroup-net/ycsm
 cd ycsm
 chmod +x ycsm-setup.sh
 
@@ -29,7 +28,3 @@ chmod +x ycsm-setup.sh
 
   YCSM - Select an Option:
 ```
-
-## Resources
-* [Cobalt Strike Team Server Population Study](https://blog.cobaltstrike.com/2019/02/19/cobalt-strike-team-server-population-study/)
-* [Red Team Infrastructure Wiki](https://github.com/bluscreenofjeff/Red-Team-Infrastructure-Wiki)
