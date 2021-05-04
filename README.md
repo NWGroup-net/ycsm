@@ -16,6 +16,7 @@ If HTTPS was selected, it will automatically setup letsencrypt certbot and obtai
 
 ## Getting Started
 MUST HAVE Ubuntu 20.04.2 LTS
+
 LOGIN AS root
 RUN THE FOLLOWING:
 ```
