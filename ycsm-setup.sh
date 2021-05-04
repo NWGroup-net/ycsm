@@ -53,6 +53,8 @@ ycsm_install() {
   CONF_DST="/etc/nginx/sites-enabled/default"
 
   ycsm_action "Installing Dependencies..."
+  apt update
+  apt upgrade
   apt-get install -y vim less
 
   ycsm_action "Updating apt-get..."
@@ -64,13 +66,16 @@ ycsm_install() {
   check_errors
 
   ycsm_action "Installing nginx git..."
+  apt install git
   apt-get install -y nginx nginx-extras git
 
   ycsm_action "Installing certbot..."
   #git clone https://github.com/certbot/certbot.git /opt/letsencrypt > /dev/null 2>&1\
+  apt install snapd
   snap install core; sudo snap refresh core
   snap install --classic certbot
   ln -s /snap/bin/certbot /usr/bin/certbot
+  apt install python3-certbot-nginx
 
   ycsm_action "Adding cronjob..."
   cp ycsm-cron /etc/cron.d/ycsm
