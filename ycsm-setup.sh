@@ -67,8 +67,7 @@ ycsm_install() {
   apt-get install -y nginx nginx-extras git
 
   ycsm_action "Installing certbot..."
-  #git clone https://github.com/certbot/certbot.git /opt/letsencrypt > /dev/null 2>&1\
-  apt-get install certbot
+  git clone https://github.com/certbot/certbot.git /opt/letsencrypt > /dev/null 2>&1\
 
   ycsm_action "Adding cronjob..."
   cp ycsm-cron /etc/cron.d/ycsm
@@ -108,7 +107,7 @@ ycsm_initialize() {
 
   SSL_SRC="/etc/letsencrypt/live/$domain_name"
   ycsm_action "Obtaining Certificates..."
-  certbot certonly --nginx --non-interactive --quiet --register-unsafely-without-email --agree-tos -d $domain_name
+  /opt/letsencrypt/certbot-auto certonly --non-interactive --quiet --register-unsafely-without-email --agree-tos -a webroot --webroot-path=/var/www/html -d $domain_name
   check_errors
 
   ycsm_action "Installing Certificates..."
