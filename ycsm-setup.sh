@@ -68,9 +68,7 @@ ycsm_install() {
 
   ycsm_action "Installing certbot..."
   #git clone https://github.com/certbot/certbot.git /opt/letsencrypt > /dev/null 2>&1\
-  snap install core; sudo snap refresh core
-  snap install --classic certbot
-  ln -s /snap/bin/certbot /usr/bin/certbot
+  apt-get install certbot
 
   ycsm_action "Adding cronjob..."
   cp ycsm-cron /etc/cron.d/ycsm
