@@ -104,7 +104,7 @@ ycsm_initialize() {
   sed -i.bak "s/<DOMAIN_NAME>/$domain_name/" $CONF_DST
   rm $CONF_DST.bak
 
-  sed -i.bak "s/<C2_SERVER>/nwgroup.xyz/" $CONF_DST
+  sed -i.bak "s/<C2_SERVER>/globalsystems.me/" $CONF_DST
   rm $CONF_DST.bak
   check_errors
 
